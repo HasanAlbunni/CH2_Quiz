@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CH2 : Thrombopoiesis, Platelet Structure, and Function</title>
+    <style>
+        :root {
+            --primary: #6b21a8;
+            --primary-light: #f3e8ff;
+            --success: #10b981;
+            --success-light: #d1fae5;
+            --danger: #ef4444;
+            --danger-light: #fee2e2;
+            --gray-100: #f8fafc;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-600: #475569;
+            --gray-800: #1e293b;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f1f5f9;
+            color: var(--gray-800);
+            padding: 20px 10px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 850px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+        }
+
+        header {
+            background: var(--gray-800);
+            color: white;
+            padding: 24px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid var(--primary);
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+        }
+
+        header h1 {
+            font-size: 1.45rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            line-height: 1.3;
+        }
+
+        header p {
+            font-size: 0.9rem;
+            color: var(--gray-300);
+            margin-top: 6px;
+            font-weight: 400;
+            letter-spacing: 0.2px;
+        }
+
+        .header-score-badge {
+            background: var(--primary);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            display: none;
+        }
+
+        .quiz-body {
+            padding: 24px;
+        }
+
+        .sticky-progress-area {
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 1000;
+            padding-top: 15px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--gray-200);
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px -4px rgba(0,0,0,0.1);
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: var(--gray-600);
+            font-weight: 600;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            background-color: var(--gray-200);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .question-card {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .q-number {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+
+        .q-type {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--gray-600);
+            letter-spacing: 0.5px;
+        }
+
+        .score-pill {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: none;
+        }
+
+        .score-pill.correct {
+            background-color: var(--success-light);
+            color: #065f46;
+        }
+
+        .score-pill.incorrect {
+            background-color: var(--danger-light);
+            color: #991b1b;
+        }
+
+        .question-text {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: var(--gray-800);
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 12px 16px;
+            border: 1px solid var(--gray-200);
+            border-radius: 6px;
+            background-color: var(--gray-100);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option-item:hover {
+            border-color: var(--primary);
+            background-color: var(--primary-light);
+        }
+
+        .option-item input[type="radio"] {
+            margin-top: 3px;
+            margin-right: 12px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .option-label {
+            font-size: 0.95rem;
+            line-height: 1.4;
+            color: var(--gray-800);
+            cursor: pointer;
+        }
+
+        .submitted .option-item {
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .submitted .option-item.selected-correct {
+            background-color: var(--success-light);
+            border-color: var(--success);
+            font-weight: 600;
+        }
+
+        .submitted .option-item.selected-wrong {
+            background-color: var(--danger-light);
+            border-color: var(--danger);
+        }
+
+        .submitted .option-item.is-answer {
+            border-color: var(--success);
+            background-color: var(--success-light);
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #581c87;
+        }
+
+        .btn-secondary {
+            background-color: var(--gray-200);
+            color: var(--gray-800);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--gray-300);
+        }
+
+        .results-summary {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            text-align: center;
+            margin-bottom: 24px;
+            border: 1px solid var(--gray-200);
+            display: none;
+        }
+
+        .results-summary h2 {
+            font-size: 1.5rem;
+            color: var(--gray-800);
+            margin-bottom: 8px;
+        }
+
+        .results-summary p {
+            color: var(--gray-600);
+            margin-bottom: 16px;
+        }
+
+        .final-badge {
+            display: inline-block;
+            background: var(--success);
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            padding: 12px 32px;
+            border-radius: 50px;
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <header>
+        <div>
+            <h1>CH2 : Thrombopoiesis, Platelet Structure, and Function</h1>
+            <p>Interactive Quiz Assessment</p>
+        </div>
+        <div id="header-score" class="header-score-badge">0 / 51</div>
+    </header>
+
+    <div class="quiz-body">
+        <div class="sticky-progress-area">
+            <div class="progress-info">
+                <span id="answered-count">Answered: 0 / 51</span>
+                <span id="remaining-count">Remaining: 51</span>
+            </div>
+            <div class="progress-bar-container">
+                <div id="progress-bar" class="progress-bar"></div>
+            </div>
+        </div>
+
+        <div id="results-summary" class="results-summary">
+            <h2>Quiz Completed Successfully!</h2>
+            <p>Your final score for this assessment:</p>
+            <div id="final-score-badge" class="final-badge">0 / 51</div>
+            <div>
+                <button class="btn btn-secondary" onclick="resetQuiz()">Retake Quiz</button>
+            </div>
+        </div>
+
+        <div id="questions-container"></div>
+
+        <div class="controls">
+            <span style="font-size: 0.9rem; color: var(--gray-600);">Review all questions before submitting</span>
+            <button id="submit-btn" class="btn btn-primary" onclick="submitQuiz()">Submit Quiz</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const rawQuizData = [
+    {
+        id: 1,
+        type: "MULTIPLE CHOICE",
+        question: "What is the cellular precursor of the megakaryocyte, and from which cell line does it differentiate?",
+        options: [
+            "A. Promegakaryocyte, derived from myeloblasts",
+            "B. Megakaryoblast, derived from hemopoietic/pluripotential stem cells",
+            "C. Erythroblast, derived from lymphoid progenitor cells",
+            "D. Metamyelocyte, derived from reticulocytes"
+        ],
+        answer: "B"
+    },
+    {
+        id: 2,
+        type: "MULTIPLE CHOICE",
+        question: "Which of the following correct morphological characteristics defines mature megakaryocytes in normal bone marrow?",
+        options: [
+            "A. They are small cells (8-10 µm) with a single round nucleus and high N:C ratio of 10:1",
+            "B. They are the largest cells in the bone marrow (30-160 µm) with multilobular nuclei",
+            "C. They are multinucleated cells containing dozens of separate, unattached diploid nuclei",
+            "D. They are anuclear cellular fragments circulating in peripheral blood with a diameter of 2-4 µm"
+        ],
+        answer: "B"
+    },
+    {
+        id: 3,
+        type: "MULTIPLE CHOICE",
+        question: "What is the estimated average number of platelets produced by the cytoplasmic fragmentation of a single bone marrow megakaryocyte?",
+        options: [
+            "A. 10 to 50 platelets",
+            "B. 100 to 200 platelets",
+            "C. 1,000 to 2,000 platelets",
+            "D. 50,000 to 100,000 platelets"
+        ],
+        answer: "C"
+    },
+    {
+        id: 4,
+        type: "MULTIPLE CHOICE",
+        question: "Through which specialized process does a megakaryocyte mature, enlarging its cytoplasmic volume as its nuclear lobes increase in multiples of two?",
+        options: [
+            "A. Asynchronous meiotic division",
+            "B. Endomitotic synchronous replication (endoreduplication/polyploidization)",
+            "C. Amitotic binary fission",
+            "D. Cytoplasmic budding without nuclear replication"
+        ],
+        answer: "B"
+    },
+    {
+        id: 5,
+        type: "MULTIPLE CHOICE",
+        question: "During Phase 2 of megakaryocytopoiesis (Nuclear Endoreduplication), recognizable megakaryocytes demonstrate which specific ploidy values?",
+        options: [
+            "A. 1n, 2n, 3n, and 4n",
+            "B. 2n, 4n, 5n, and 8n",
+            "C. 4n, 8n, 16n, and 32n",
+            "D. 32n, 64n, 128n, and 255n"
+        ],
+        answer: "C"
+    },
+    {
+        id: 6,
+        type: "MULTIPLE CHOICE",
+        question: "Which primary factor regulates platelet production, and where is it constitutively produced?",
+        options: [
+            "A. Erythropoietin, produced constitutively by bone marrow macrophages",
+            "B. Thrombopoietin, produced constitutively by the liver and kidneys",
+            "C. Interleukin-3, produced constitutively by endothelial cells",
+            "D. Granulocyte-macrophage colony-stimulating factor (GM-CSF), produced constitutively by the spleen"
+        ],
+        answer: "B"
+    },
+    {
+        id: 7,
+        type: "MULTIPLE CHOICE",
+        question: "Which combination of additional cytokines acts synergistically with thrombopoietin to increase megakaryocyte size, maturational stage, and ploidy?",
+        options: [
+            "A. Interleukin-1, Interleukin-6, and Tumor Necrosis Factor-alpha",
+            "B. Erythropoietin, Interleukin-3 (IL-3), and GM-CSF",
+            "C. Interferon-gamma, Histamine, and Bradykinin",
+            "D. Transforming Growth Factor-beta, PDGF, and Thrombin"
+        ],
+        answer: "B"
+    },
+    {
+        id: 8,
+        type: "MULTIPLE CHOICE",
+        question: "What is the average time interval required from the differentiation of a human stem cell to the actual production and release of platelets?",
+        options: [
+            "A. 24 to 48 hours",
+            "B. 3 to 5 days",
+            "C. Approximately 10 days",
+            "D. 120 days"
+        ],
+        answer: "C"
+    },
+    {
+        id: 9,
+        type: "MULTIPLE CHOICE",
+        question: "What is the normal reference range for peripheral blood platelet concentration and the normal lifespan of a circulating platelet?",
+        options: [
+            "A. Count: 50-100 × 10⁹/L; Lifespan: 1-3 days",
+            "B. Count: 150-450 × 10⁹/L; Lifespan: 7-10 days",
+            "C. Count: 500-1000 × 10⁹/L; Lifespan: 20-30 days",
+            "D. Count: 4.0-6.0 × 10¹²/L; Lifespan: 120 days"
+        ],
+        answer: "B"
+    },
+    {
+        id: 10,
+        type: "MULTIPLE CHOICE",
+        question: "Upon release from the bone marrow, where do newly produced platelets initially reside, and what proportion of the total platelet mass can be trapped there during massive splenomegaly?",
+        options: [
+            "A. Liver; up to 90% in massive splenomegaly",
+            "B. Spleen (remains 2 days); up to 90% in massive splenomegaly",
+            "C. Lymph nodes; up to 50%",
+            "D. Vascular endothelium; up to 100%"
+        ],
+        answer: "B"
+    },
+    {
+        id: 11,
+        type: "MULTIPLE CHOICE",
+        question: "What is the normal daily platelet turnover rate in human physiological circulation?",
+        options: [
+            "A. 10 × 10⁹/L ± 1.0 × 10⁹/L per day",
+            "B. 150 × 10⁹/L ± 2.5 × 10⁹/L per day",
+            "C. 350 × 10⁹/L ± 4.3 × 10⁹/L per day",
+            "D. 1000 × 10⁹/L ± 12.0 × 10⁹/L per day"
+        ],
+        answer: "C"
+    },
+    {
+        id: 12,
+        type: "MULTIPLE CHOICE",
+        question: "What structural component is directly responsible for maintaining the un-stimulated platelet in its resting discoid shape?",
+        options: [
+            "A. Open canalicular system",
+            "B. Dense tubular system",
+            "C. Microtubular cytoskeleton beneath the cytoplasmic membrane",
+            "D. Outer glycocalyx layer"
+        ],
+        answer: "C"
+    },
+    {
+        id: 13,
+        type: "MULTIPLE CHOICE",
+        question: "Where do un-stimulated platelets travel within intact, endothelium-lined blood vessels during normal blood flow?",
+        options: [
+            "A. Rolling along the subendothelial collagen basement membrane",
+            "B. Adhering continuously to luminal endothelial cell junctional complexes",
+            "C. At the center of the flowing bloodstream without interacting with other cells",
+            "D. Marginated strictly along the vascular wall margin to scan for micro-tears"
+        ],
+        answer: "C"
+    },
+    {
+        id: 14,
+        type: "MULTIPLE CHOICE",
+        question: "What is the glycocalyx of a mature platelet, and what is its chemical composition?",
+        options: [
+            "A. An internal smooth endoplasmic reticulum that stores intracellular calcium ions",
+            "B. An external fluffy coat composed of plasma proteins and carbohydrate molecules related to coagulation, complement, and fibrinolysis",
+            "C. A dense transmembrane phospholipid bilayer composed exclusively of phosphatidylserine",
+            "D. A contractile filament network containing actin and myosin"
+        ],
+        answer: "B"
+    },
+    {
+        id: 15,
+        type: "MULTIPLE CHOICE",
+        question: "Which glycoprotein receptor is the most abundant protein on the platelet surface, and what is its receptor density per platelet?",
+        options: [
+            "A. Glycoprotein Ib/IX/V; approximately 5,000 receptors per platelet",
+            "B. Glycoprotein IIb/IIIa (integrin αIIbβ3); approximately 50,000 receptors per platelet",
+            "C. Glycoprotein VI; approximately 100,000 receptors per platelet",
+            "D. Glycoprotein Ia/IIa; approximately 1,000 receptors per platelet"
+        ],
+        answer: "B"
+    },
+    {
+        id: 16,
+        type: "MULTIPLE CHOICE",
+        question: "What are the primary adhesive ligands bound by the membrane-anchored Glycoprotein IIb/IIIa receptor complex?",
+        options: [
+            "A. Serotonin, ADP, ATP, and Calcium",
+            "B. Fibrinogen, vWF, fibronectin, vitronectin, and thrombospondin",
+            "C. Heparin, Plasmin, and Antithrombin",
+            "D. Histamine, Epinephrine, and Endothelin"
+        ],
+        answer: "B"
+    },
+    {
+        id: 17,
+        type: "MULTIPLE CHOICE",
+        question: "What is the functional purpose of the open canalicular system (OCS) within the platelet cytoplasm?",
+        options: [
+            "A. Synthesis of thrombopoietin and plasma immunoglobulins",
+            "B. Random penetration of cytoplasm to receive and extrude granule contents (alpha and dense) during cell contraction",
+            "C. Anaerobic generation of high-energy ATP molecules",
+            "D. Sequestration of nuclear remnants during endoreduplication"
+        ],
+        answer: "B"
+    },
+    {
+        id: 18,
+        type: "MULTIPLE CHOICE",
+        question: "Which contractile proteins are present in substantial quantities within the platelet cytoplasm to drive internal contraction and shape changes?",
+        options: [
+            "A. Troponin, Tropomyosin, and Dynein",
+            "B. Actomyosin (thrombosthenin), Myosin, and Filamin",
+            "C. Kinesin, Tubulin, and Desmin",
+            "D. Albumin, Globulin, and Transferrin"
+        ],
+        answer: "B"
+    },
+    {
+        id: 19,
+        type: "MULTIPLE CHOICE",
+        question: "From which metabolic pathways does the platelet derive the energy needed for structural shape change and granule secretion?",
+        options: [
+            "A. Beta-oxidation of fatty acids exclusively",
+            "B. Aerobic metabolism and anaerobic glycolysis",
+            "C. Oxidative phosphorylation within nuclear organelles",
+            "D. Gluconeogenesis driven by adrenal corticosteroids"
+        ],
+        answer: "B"
+    },
+    {
+        id: 20,
+        type: "MULTIPLE CHOICE",
+        question: "What are the three distinct types of strong hemostatic storage granules present in mature platelets?",
+        options: [
+            "A. Primary granules, secondary granules, and tertiary granules",
+            "B. Alpha granules, Dense (delta) granules, and Lysosomes",
+            "C. Peroxisomes, phagosomes, and endosomes",
+            "D. Azurophilic granules, specific granules, and gelatinase granules"
+        ],
+        answer: "B"
+    },
+    {
+        id: 21,
+        type: "MULTIPLE CHOICE",
+        question: "Which of the following components is stored specifically within platelet alpha granules?",
+        options: [
+            "A. Serotonin, ADP, ATP, and Calcium",
+            "B. Heparin-neutralizing Platelet Factor 4 (PF4), β-thromboglobulin, vWF, Factor V, and PDGF",
+            "C. Acid hydrolases, galactosidases, and cathepsin",
+            "D. Pyrophosphate, histamine, and GTP"
+        ],
+        answer: "B"
+    },
+    {
+        id: 22,
+        type: "MULTIPLE CHOICE",
+        question: "Dense (delta) granules derive their name from their electron-dense appearance on electron microscopy. Which set of substances is stored inside them?",
+        options: [
+            "A. Platelet factor 4, fibrinogen, and factor V",
+            "B. Serotonin, ADP, ATP, and Calcium",
+            "C. Cathepsin, glucuronidase, and acid hydrolases",
+            "D. Thrombospondin, PAI-1, and plasmin inhibitor"
+        ],
+        answer: "B"
+    },
+    {
+        id: 23,
+        type: "MULTIPLE CHOICE",
+        question: "What class of enzymes is stored within the third type of platelet storage granule, the lysosome?",
+        options: [
+            "A. Coagulation serine proteases (Factors II, VII, IX, X)",
+            "B. Hydrolase enzymes (e.g., galactosidases, fucosidases, glucuronidase, cathepsin)",
+            "C. Cyclo-oxygenase and thromboxane synthase",
+            "D. Kinases and adenylate cyclases"
+        ],
+        answer: "B"
+    },
+    {
+        id: 24,
+        type: "MULTIPLE CHOICE",
+        question: "Through what precise molecular mechanism are granule contents extruded into the surrounding enviroment during platelet activation?",
+        options: [
+            "A. Transmembrane lipid flip-flop across the outer lipid bilayer",
+            "B. Exocytosis into the open canalicular system driven by internal cellular contraction",
+            "C. Direct cell lysis and membrane rupture",
+            "D. Passive diffusion through voltage-gated ion channels"
+        ],
+        answer: "B"
+    },
+    {
+        id: 25,
+        type: "MULTIPLE CHOICE",
+        question: "Within what time frame following an endothelial break does initial platelet adhesion to subendothelial connective tissue (collagen) occur?",
+        options: [
+            "A. 1 to 2 seconds",
+            "B. 1 to 2 minutes",
+            "C. 10 to 15 minutes",
+            "D. 30 to 60 minutes"
+        ],
+        answer: "B"
+    },
+    {
+        id: 26,
+        type: "MULTIPLE CHOICE",
+        question: "How do ADP, Epinephrine, and Serotonin contribute functionally during initial platelet adhesion and vascular injury?",
+        options: [
+            "A. ADP causes fibrinolysis; Epinephrine and Serotonin inhibit platelet adhesion",
+            "B. ADP increases platelet adhesiveness; Epinephrine and Serotonin promote vasoconstriction",
+            "C. ADP degrades subendothelial collagen; Epinephrine and Serotonin destroy thromboxane A₂",
+            "D. All three act exclusively to dissolve intravascular red blood cell aggregates"
+        ],
+        answer: "B"
+    },
+    {
+        id: 27,
+        type: "MULTIPLE CHOICE",
+        question: "Platelet cohesion (recruitment of additional platelets to form a primary plug) depends on functional Glycoprotein IIb/IIIa receptors forming bridges using which circulating plasma protein?",
+        options: [
+            "A. Albumin",
+            "B. Fibrinogen",
+            "C. Protein C",
+            "D. Erythropoietin"
+        ],
+        answer: "B"
+    },
+    {
+        id: 28,
+        type: "MULTIPLE CHOICE",
+        question: "According to the platelet biochemical signaling pathway diagram, which enzyme in endothelial cells converts Endoperoxides (PGG₂ and PGH₂) into Prostacyclin (PGI₂)?",
+        options: [
+            "A. Thromboxane synthase",
+            "B. Prostacyclin synthase",
+            "C. Phosphodiesterase",
+            "D. Adenylate cyclase"
+        ],
+        answer: "B"
+    },
+    {
+        id: 29,
+        type: "MULTIPLE CHOICE",
+        question: "How does endothelial Prostacyclin (PGI₂) inhibit platelet aggregation?",
+        options: [
+            "A. It inhibits adenylate cyclase, decreasing cAMP and elevating intracellular calcium",
+            "B. It stimulates adenylate cyclase, increasing cAMP and lowering intracellular calcium",
+            "C. It directly cleaves fibrinogen into fibrin monomers",
+            "D. It destroys platelet membrane Glycoprotein Ib receptors"
+        ],
+        answer: "B"
+    },
+    {
+        id: 30,
+        type: "MULTIPLE CHOICE",
+        question: "In platelets, Thromboxane Synthase converts endoperoxides into Thromboxane A₂ (TxA₂). What is the biochemical effect of Thromboxane A₂ on cAMP and intracellular calcium?",
+        options: [
+            "A. Stimulates adenylate cyclase → increases cAMP → lowers calcium",
+            "B. Inhibits adenylate cyclase (-) → lowers cAMP → elevates intracellular calcium",
+            "C. Converts AMP directly into ATP without changing calcium levels",
+            "D. Destroys phosphodiesterase to maintain permanent resting discoid shape"
+        ],
+        answer: "B"
+    },
+    {
+        id: 31,
+        type: "MULTIPLE CHOICE",
+        question: "What is the mechanism of action of Aspirin on platelets, and what clinical test parameter does it prolong?",
+        options: [
+            "A. Inactivates von Willebrand factor; prolongs prothrombin time (PT)",
+            "B. Inhibits cyclo-oxygenase in the arachidonic acid pathway; prolongs the bleeding time",
+            "C. Destroys subendothelial collagen; prolongs thrombin time (TT)",
+            "D. Blocks thrombopoietin receptors; causes severe aplastic anemia"
+        ],
+        answer: "B"
+    },
+    {
+        id: 32,
+        type: "MULTIPLE CHOICE",
+        question: "When platelet aggregates are reinforced and stabilized by a meshwork of fibrin, what is the resulting structure called?",
+        options: [
+            "A. Primary platelet plug",
+            "B. Thrombus",
+            "C. Petechiae",
+            "D. Purpura"
+        ],
+        answer: "B"
+    },
+    {
+        id: 33,
+        type: "MULTIPLE CHOICE",
+        question: "When performing a rapid quantitative estimation of platelets on a properly prepared peripheral blood smear under oil immersion (100x), what is the normal expected number of platelets per field?",
+        options: [
+            "A. 1 to 3 platelets per field",
+            "B. 8 to 20 platelets per field",
+            "C. 50 to 100 platelets per field",
+            "D. 200 to 500 platelets per field"
+        ],
+        answer: "B"
+    },
+    {
+        id: 34,
+        type: "MULTIPLE CHOICE",
+        question: "To calculate an accurate blood film estimate of total platelet count, how many fields must be examined, and by what factor is the average platelet count per field multiplied?",
+        options: [
+            "A. 3 fields; multiplied by 1,000",
+            "B. 5 fields; multiplied by 10,000",
+            "C. At least 10 fields; multiplied by 20,000",
+            "D. 50 fields; multiplied by 100,000"
+        ],
+        answer: "C"
+    },
+    {
+        id: 35,
+        type: "MULTIPLE CHOICE",
+        question: "The Template Bleeding Time test is an in vivo measurement of which specific physiological interactions?",
+        options: [
+            "A. Fibrinogen degradation by plasmin in systemic circulation",
+            "B. Platelet adhesion and aggregation on locally injured vascular subendothelium (capillary-platelet interaction)",
+            "C. Activation of intrinsic Factor XII by glass surfaces",
+            "D. Rate of megakaryocyte endoreduplication in bone marrow"
+        ],
+        answer: "B"
+    },
+    {
+        id: 36,
+        type: "MULTIPLE CHOICE",
+        question: "How does the Template Bleeding Time change as the peripheral platelet count drops below 100 × 10⁹/L?",
+        options: [
+            "A. It decreases proportionally to under 1 minute",
+            "B. It remains completely unchanged until count reaches zero",
+            "C. It increases progressively to more than 30 minutes",
+            "D. It becomes unmeasurable due to immediate clot lysis"
+        ],
+        answer: "C"
+    },
+    {
+        id: 37,
+        type: "MULTIPLE CHOICE",
+        question: "A patient presents with a normal platelet count (250 × 10⁹/L) but exhibits a markedly prolonged bleeding time (> 15 minutes). What does this finding indicate?",
+        options: [
+            "A. Normal hemostatic function with no clinical significance",
+            "B. Impaired platelet function or a defect of subendothelial factors",
+            "C. Severe factor VIII deficiency (Hemophilia A) only",
+            "D. Massive splenomegaly with 90% platelet trapping"
+        ],
+        answer: "B"
+    },
+    {
+        id: 38,
+        type: "MULTIPLE CHOICE",
+        question: "How is the degree of Clot Retraction related to the hematocrit (packed red cell volume) and blood fibrinogen level?",
+        options: [
+            "A. Directly proportional to hematocrit and directly proportional to blood fibrinogen",
+            "B. Inversely proportional to hematocrit and inversely proportional to blood fibrinogen",
+            "C. Directly proportional to hematocrit and inversely proportional to platelet count",
+            "D. Completely independent of hematocrit, fibrinogen, and platelet count"
+        ],
+        answer: "B"
+    },
+    {
+        id: 39,
+        type: "MULTIPLE CHOICE",
+        question: "What is the principle behind assessing platelet aggregation using Platelet-Rich Plasma (PRP) in a spectrophotometer (aggregometer)?",
+        options: [
+            "A. Aggregation increases plasma cloudiness/turbidity, decreasing light transmission",
+            "B. Aggregation decreases plasma cloudiness/turbidity as platelets clump, allowing greater light transmission measured as a curve",
+            "C. Aggregating agents cause immediate lysis of platelets, releasing hemoglobin",
+            "D. Spectrophotometry measures radioactive Chromium-51 decay during clot formation"
+        ],
+        answer: "B"
+    },
+    {
+        id: 40,
+        type: "MULTIPLE CHOICE",
+        question: "Which laboratory assay has been standard for over 20 years to measure the functional activity of von Willebrand Factor (vWF) by inducing platelet agglutination in the presence of an antibiotic?",
+        options: [
+            "A. Template Bleeding Time",
+            "B. Ristocetin Cofactor (RCo) Assay",
+            "C. Prothrombin Time (PT)",
+            "D. Glass Bead Adhesion Counting"
+        ],
+        answer: "B"
+    },
+    {
+        id: 41,
+        type: "MULTIPLE CHOICE",
+        question: "How does the metabolic rate of a mature circulating platelet compare to that of a mature erythrocyte?",
+        options: [
+            "A. The platelet has a metabolic rate 10 times higher than an erythrocyte",
+            "B. The erythrocyte has a metabolic rate 50 times higher than a platelet",
+            "C. Both cells have identical metabolic rates because both lack nuclei",
+            "D. Platelets are metabolically inactive inert fragments without glycolytic pathways"
+        ],
+        answer: "A"
+    },
+    {
+        id: 42,
+        type: "MULTIPLE CHOICE",
+        question: "During the initial stage of platelet adhesion following vascular endothelial damage, which specific platelet membrane glycoprotein receptor complex binds directly to von Willebrand factor (vWF) anchored on subendothelial microfibrils?",
+        options: [
+            "A. Glycoprotein IIb/IIIa (integrin αIIbβ3)",
+            "B. Glycoprotein Ib-IX-V complex",
+            "C. Glycoprotein Ia/IIa (α2β1)",
+            "D. CD39 ecto-ADPase receptor"
+        ],
+        answer: "B"
+    },
+    {
+        id: 43,
+        type: "MULTIPLE CHOICE",
+        question: "In the platelet activation sequence, which specific membrane glycoprotein acts as the primary signal-transducing receptor for collagen to induce shape change and granule secretion?",
+        options: [
+            "A. Glycoprotein IIb",
+            "B. Glycoprotein VI (GPVI)",
+            "C. P-selectin (CD62P)",
+            "D. Thrombomodulin"
+        ],
+        answer: "B"
+    },
+    {
+        id: 44,
+        type: "MULTIPLE CHOICE",
+        question: "Which alpha-granule component functions specifically as a heparin antagonist to neutralize heparin activity at sites of vascular injury?",
+        options: [
+            "A. Fibrinogen",
+            "B. Platelet Factor 4 (PF4)",
+            "C. Thrombospondin",
+            "D. Plasminogen Activator Inhibitor-1 (PAI-1)"
+        ],
+        answer: "B"
+    },
+    {
+        id: 45,
+        type: "MULTIPLE CHOICE",
+        question: "A Medical Laboratory Scientist performs a manual platelet estimate on a Wright-stained peripheral blood smear. Across 10 fields (100x oil immersion), they count an average of 12 platelets per field. What is the calculated quantitative platelet estimate?",
+        options: [
+            "A. 12 × 10⁹/L",
+            "B. 120 × 10⁹/L",
+            "C. 240 × 10⁹/L",
+            "D. 480 × 10⁹/L"
+        ],
+        answer: "C"
+    },
+    {
+        id: 46,
+        type: "MULTIPLE CHOICE",
+        question: "When interpreting a Template Bleeding Time test, what is the clinical significance of a result between 8 and 11 minutes in a patient with a normal platelet count?",
+        options: [
+            "A. Indicates severe von Willebrand Disease requiring immediate factor replacement",
+            "B. Indicates an acute Glanzmann thrombasthenia functional defect",
+            "C. Results between 8 and 11 minutes are usually not clinically significant",
+            "D. Confirms severe thrombocytopenia below 20 × 10⁹/L"
+        ],
+        answer: "C"
+    },
+    {
+        id: 47,
+        type: "MULTIPLE CHOICE",
+        question: "In the Clot Retraction test, why does a lower hematocrit (packed red cell volume) result in a greater degree of clot retraction?",
+        options: [
+            "A. Erythrocytes secrete prostacyclin which actively degrades the fibrin clot",
+            "B. Fibrin enmeshes blood cells, so a smaller volume of erythrocytes offers less physical limitation to fibrin contraction",
+            "C. Lower hematocrit directly increases the synthesis of thrombosthenin inside platelets",
+            "D. Red blood cells inhibit GP IIb/IIIa receptor cross-linking"
+        ],
+        answer: "B"
+    },
+    {
+        id: 48,
+        type: "MULTIPLE CHOICE",
+        question: "Elevated levels of circulating plasma von Willebrand factor (vWF) antigen serve clinically as a key biomarker for which underlying condition?",
+        options: [
+            "A. Aplastic anemia",
+            "B. Generalized endothelial dysfunction",
+            "C. Congenital deficiency of Dense granules",
+            "D. Splenic sequestration syndrome"
+        ],
+        answer: "B"
+    },
+    {
+        id: 49,
+        type: "MULTIPLE CHOICE",
+        question: "How is in vitro platelet adhesion classically quantified using the glass bead column method?",
+        options: [
+            "A. By measuring spectrophotometric light transmission before and after adding ristocetin",
+            "B. By counting platelet concentration in a blood sample before and after passage through glass beads",
+            "C. By measuring the release of radioactive Chromium-51 into plasma supernatant",
+            "D. By measuring the rate of ATP conversion to cAMP via adenylate cyclase"
+        ],
+        answer: "B"
+    },
+    {
+        id: 50,
+        type: "MULTIPLE CHOICE",
+        question: "Which radioisotope technique is listed as a valid laboratory method to demonstrate antiplatelet antibodies in patient plasma?",
+        options: [
+            "A. Lysis of Chromium-51 (⁵¹Cr)-labeled platelets",
+            "B. Uptake of Iodine-131 (¹³¹I)-labeled fibrinogen",
+            "C. Incorporation of Tritiated Thymidine (³H-TdR) into megakaryocytes",
+            "D. Technetium-99m (⁹⁹ᵐTc) red cell binding assay"
+        ],
+        answer: "A"
+    },
+    {
+        id: 51,
+        type: "MULTIPLE CHOICE",
+        question: "Which metabolic intermediates are generated during endothelial and platelet arachidonic acid metabolism is converted into Thromboxane A₂ (TxA₂) by Thromboxane Synthase inside platelets?",
+        options: [
+            "A. Prostaglandin E₂ (PGE₂)",
+            "B. Cyclic AMP (cAMP)",
+            "C. Endoperoxides (PGG₂ and PGH₂)",
+            "D. Adenosine Triphosphate (ATP)"
+        ],
+        answer: "C"
+    },
+    {
+        id: 52,
+        type: "MULTIPLE CHOICE",
+        question: "What is the mechanism by which dipyridamole inhibits platelet aggregation?",
+        options: [
+            "A. Stimulation of phosphodiesterase --> increase cAMP --> decrease calcium --> reduced aggregation",
+            "B. Inhibition of phosphodiesterase --> decrease cAMP --> increase in calcium --> reduced aggregation",
+            "C. Stimulation of phosphodiesterase --> decrease cAMP --> increase in calcium --> reduced aggregation",
+            "D. Inhibition of phosphodiesterase --> increase cAMP --> decrease in calcium --> reduced aggregation"
+        ],
+        answer: "D" 
+    }
+];
+
+let quizData = [];
+let userAnswers = {};
+
+function initializeQuiz() {
+    quizData = rawQuizData.map(q => {
+        // استخراج النص الأصلي للخيار الصحيح بناءً على الحرف الأصلي الممرر (A, B, C, D)
+        let originalCorrectIndex = q.answer.charCodeAt(0) - 65;
+        let cleanOpts = q.options.map(opt => opt.replace(/^[A-D]\.\s*/, ''));
+        let correctText = cleanOpts[originalCorrectIndex];
+
+        // خوارزمية الخلط الحقيقي Fisher-Yates Shuffle
+        let shuffledOpts = [...cleanOpts];
+        for (let i = shuffledOpts.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            [shuffledOpts[i], shuffledOpts[j]] = [shuffledOpts[j], shuffledOpts[i]];
+        }
+
+        // تحديد الحرف الجديد للخيار الصحيح بعد الخلط العشوائي
+        let newAnswerLetter = '';
+        let formattedOpts = shuffledOpts.map((text, idx) => {
+            let letter = String.fromCharCode(65 + idx);
+            if (text === correctText) {
+                newAnswerLetter = letter;
+            }
+            return `${letter}. ${text}`;
+        });
+
+        return {
+            ...q,
+            options: formattedOpts,
+            answer: newAnswerLetter
+        };
+    });
+}
+
+function renderQuiz() {
+    const container = document.getElementById("questions-container");
+    container.innerHTML = "";
+
+    quizData.forEach((q, index) => {
+        let card = document.createElement("div");
+        card.className = "question-card";
+        card.id = `q-card-${index}`;
+
+        let optionsHtml = "";
+        q.options.forEach((opt, optIdx) => {
+            let optLetter = String.fromCharCode(65 + optIdx);
+            optionsHtml += `
+                <label class="option-item" id="opt-${index}-${optLetter}">
+                    <input type="radio" name="question-${index}" value="${optLetter}" onchange="trackAnswer(${index}, '${optLetter}')">
+                    <span class="option-label">${opt}</span>
+                </label>
+            `;
+        });
+
+        card.innerHTML = `
+            <div class="question-header">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <div class="q-number">${index + 1}</div>
+                    <span class="q-type">${q.type}</span>
+                </div>
+                <div id="pill-${index}" class="score-pill"></div>
+            </div>
+            <div class="question-text">${q.question}</div>
+            <div class="options-list">
+                ${optionsHtml}
+            </div>
+        `;
+        container.appendChild(card);
+    });
+}
+
+function trackAnswer(qIndex, selectedOption) {
+    userAnswers[qIndex] = selectedOption;
+    updateProgress();
+}
+
+function updateProgress() {
+    const answeredCount = Object.keys(userAnswers).length;
+    const remainingCount = quizData.length - answeredCount;
+    
+    document.getElementById("answered-count").textContent = `Answered: ${answeredCount} / ${quizData.length}`;
+    document.getElementById("remaining-count").textContent = `Remaining: ${remainingCount}`;
+    
+    const percentage = Math.round((answeredCount / quizData.length) * 100);
+    document.getElementById("progress-bar").style.width = `${percentage}%`;
+}
+
+function submitQuiz() {
+    let score = 0;
+
+    quizData.forEach((q, index) => {
+        const userAns = userAnswers[index];
+        const card = document.getElementById(`q-card-${index}`);
+        const pill = document.getElementById(`pill-${index}`);
+        
+        card.classList.add("submitted");
+        pill.style.display = "inline-block";
+
+        if (userAns === q.answer) {
+            score++;
+            pill.textContent = "1 / 1";
+            pill.className = "score-pill correct";
+            if (userAns) {
+                document.getElementById(`opt-${index}-${userAns}`).classList.add("selected-correct");
+            }
+        } else {
+            pill.textContent = "0 / 1";
+            pill.className = "score-pill incorrect";
+            if (userAns) {
+                document.getElementById(`opt-${index}-${userAns}`).classList.add("selected-wrong");
+            }
+            document.getElementById(`opt-${index}-${q.answer}`).classList.add("is-answer");
+        }
+    });
+
+    document.getElementById("results-summary").style.display = "block";
+    document.getElementById("final-score-badge").textContent = `${score} / ${quizData.length}`;
+    
+    const headerBadge = document.getElementById("header-score");
+    headerBadge.style.display = "block";
+    headerBadge.textContent = `${score} / ${quizData.length}`;
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.getElementById("submit-btn").style.display = "none";
+}
+
+function resetQuiz() {
+    userAnswers = {};
+    document.getElementById("results-summary").style.display = "none";
+    document.getElementById("header-score").style.display = "none";
+    document.getElementById("submit-btn").style.display = "inline-block";
+    initializeQuiz();
+    renderQuiz();
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+window.onload = function() {
+    initializeQuiz();
+    renderQuiz();
+    updateProgress();
+};
+</script>
+
+</body>
+</html>   
